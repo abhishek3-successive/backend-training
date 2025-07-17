@@ -66,16 +66,6 @@
 - **Cons**: Potential for fat layers
 - **Use Case**: Traditional web apps (e.g., WordPress)
 
-## 7. CQRS (Command Query Responsibility Segregation)
-- **Structure**: Separate read/write models
-- **Key Features**:
-  - Optimized read/write paths
-  - Event sourcing integration
-  - Different data stores
-- **Pros**: Performance optimization
-- **Cons**: Data consistency challenges
-- **Use Case**: High-performance systems (e.g., trading platforms)
-
 ---
 
 ## Critical Differences Comparison
