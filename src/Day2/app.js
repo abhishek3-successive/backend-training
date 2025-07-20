@@ -1,5 +1,5 @@
-const express = require('express');
-const mockUsers = require('./mockdata');
+import express from 'express';
+import mockUsers from './mockdata.js';
 
 const app = express();
 const PORT = 3004;
