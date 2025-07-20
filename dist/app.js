@@ -4,36 +4,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const auth_1 = require("./Day3/middlewares/auth");
-const errorhandling_1 = __importDefault(require("./utils/errorhandling"));
+const customHeader_1 = __importDefault(require("././middlewares/customHeader"));
+const middlewareChaining_1 = require("././middlewares/middlewareChaining");
+const custommiddleware_1 = __importDefault(require("././middlewares/custommiddleware"));
+const ratelimiter_1 = __importDefault(require("././middlewares/ratelimiter"));
+const routes_1 = __importDefault(require("./routes"));
 const app = (0, express_1.default)();
-// Middleware to parse JSON bodies
+// Middleware to parse JSON
 app.use(express_1.default.json());
-// Example of a login route where a token is generated
-app.post('/login', (req, res) => {
-    const { userId, role } = req.body;
-    if (!userId || !role) {
-        return res.status(400).json({ message: 'Missing userId or role' });
-    }
-    // Generate JWT token after user authentication (example)
-    const token = (0, auth_1.generateToken)({ userId, role });
-    res.json({ message: 'Login successful', token });
-});
-// Protected route that requires token authentication
-app.get('/protected', auth_1.authenticateToken, (req, res) => {
-    const user = req.body.userId;
-    res.json({ message: 'This is a protected route', user });
-});
-// Root endpoint
+// Custom logging middleware
+app.use(custommiddleware_1.default);
+// Rate limiter: Allow max 5 requests per IP
+app.use((0, ratelimiter_1.default)(10));
+// Add a custom header to every response
+app.use((0, customHeader_1.default)('X-Powered-By', 'Express-Custom'));
+// Chain multiple custom middlewares
+app.use(middlewareChaining_1.middleware1, middlewareChaining_1.middleware2, middlewareChaining_1.middleware3);
+app.use('/api', routes_1.default);
+// Root route
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-// Error handling for undefined routes
+// 404 handler
 app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
 });
-app.use(errorhandling_1.default);
-const PORT = 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+exports.default = app;
