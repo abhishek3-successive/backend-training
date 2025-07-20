@@ -7,29 +7,49 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+const getNumberInput = async (prompt) => {
+  let valid = false;
+  let number;
+
+  while (!valid) {
+    const input = await rl.question(prompt);
+    number = parseFloat(input);
+
+    if (!isNaN(number)) {
+      valid = true;
+    } else {
+      console.log("❌ Please enter a valid number.");
+    }
+  }
+
+  return number;
+};
+
 const main = async () => {
   try {
-    const num1 = await rl.question("Enter num1 => ");
-    const num2 = await rl.question("Enter num2 => ");
+    const num1 = await getNumberInput("Enter num1 => ");
+    const num2 = await getNumberInput("Enter num2 => ");
     const operation = await rl.question("Choose operation (add/sub/mul/div) => ");
-
-    const input1 = parseFloat(num1);
-    const input2 = parseFloat(num2);
 
     let result;
 
     switch (operation.toLowerCase()) {
       case "add":
-        result = add(input1, input2);
+        result = add(num1, num2);
         break;
       case "sub":
-        result = sub(input1, input2);
+        result = sub(num1, num2);
         break;
       case "mul":
-        result = mul(input1, input2);
+        result = mul(num1, num2);
         break;
       case "div":
-        result = div(input1, input2).toFixed(2);
+        if (num2 === 0) {
+          console.log("❌ Division by zero is not allowed.");
+          rl.close();
+          return;
+        }
+        result = div(num1, num2).toFixed(2);
         break;
       default:
         console.log("❌ Invalid Operation");
@@ -39,7 +59,7 @@ const main = async () => {
 
     console.log(`✅ Result: ${result}`);
 
-    const data = `${input1}, ${input2}, ${operation}: ${result}\n`;
+    const data = `${num1}, ${num2}, ${operation}: ${result}\n`;
     await fs.appendFile("result.csv", data);
     console.log("✅ Added to result.csv successfully");
   } catch (err) {
