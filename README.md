@@ -1,78 +1,143 @@
-# Postman Installation Guide (Linux)
+<!-- Set up a stable LTS version of Node.js (optional if already set up).
 
-This guide provides step-by-step instructions to install and set up the latest **stable version of Postman** on a Debian-based Linux system using the terminal.
+Here are the steps to install the stable LTS version of Node.js:
 
----
+Update Package Lists:  sudo apt update
 
-## 📦 Installation Steps
+Install Node.js:
 
-### 1. Open a Terminal
-Launch your terminal from the applications menu or press `Ctrl+Alt+T`.
+sudo apt install curl
 
----
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 
-### 2. Add the Postman Repository
+After running the setup script, you can install Node.js and npm:
 
-```bash
-sudo sh -c 'echo "deb https://dl.pstmn.io/download/latest/linux64" > /etc/apt/sources.list.d/postman.list'
-```
+ sudo apt install nodejs
 
-This command adds the Postman package source to your system's list of APT repositories.
+Verify Installation
 
----
+ node -v
 
-### 3. Import the Postman GPG Key
+   npm -v
 
-```bash
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61
-```
+Create a repository (named as backend-training) and generate a README.md file and write all the steps and details in this file. -->
 
-This ensures that your system can verify the authenticity of the Postman package.
+# Backend Training
 
----
+Welcome to the Backend Training repository! This guide will help you set up Node.js LTS (Long Term Support) on your system and get started with backend development.
 
-### 4. Update the Package List
 
-```bash
-sudo apt-get update
-```
+## Prerequisites
 
-Refreshes your package manager's index to recognize the new Postman repository.
+Before installing Node.js, ensure you have:
 
----
+- A Linux-based system (Ubuntu/Debian)
+- Terminal access with sudo privileges
+- Internet connection for downloading packages
 
-### 5. Install Postman
+## Node.js Installation
 
-```bash
-sudo apt-get install postman
-```
+Follow these steps to install the stable LTS version of Node.js:
 
-This command installs the latest stable version of Postman on your system.
+### Step 1: Update Package Lists
 
----
-
-## ✅ Post-Installation
-
-Once installed, you can launch Postman via the application menu or by typing:
+First, update your system's package lists to ensure you have the latest information about available packages:
 
 ```bash
-postman
+sudo apt update
 ```
 
-into your terminal.
+### Step 2: Install Required Dependencies
 
----
+Install curl, which is needed to download the Node.js setup script:
 
-## 📝 Notes
+```bash
+sudo apt install curl
+```
 
-- This guide is tailored for Debian-based systems like **Ubuntu**.
-- For other distributions, consider using the [Postman Snap package](https://snapcraft.io/postman) or downloading from the [official website](https://www.postman.com/downloads/).
+### Step 3: Add NodeSource Repository
 
----
+Download and execute the NodeSource setup script for the LTS version:
 
-## 🔗 Resources
+```bash
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+```
 
-- [Official Postman Download Page](https://www.postman.com/downloads/)
-- [Postman Documentation](https://learning.postman.com/)
+**What this command does:**
+- Downloads the official NodeSource setup script
+- Configures the repository for the latest LTS version
+- Updates your package manager with the new repository information
 
----
+### Step 4: Install Node.js and npm
+
+After running the setup script, install Node.js and npm:
+
+```bash
+sudo apt install nodejs
+```
+
+**Note:** This command installs both Node.js and npm (Node Package Manager) simultaneously.
+
+## Verification
+
+Verify that Node.js and npm have been installed correctly:
+
+### Check Node.js Version
+
+```bash
+node -v
+```
+
+Expected output format: `v18.x.x` or `v20.x.x` (depending on current LTS version)
+
+### Check npm Version
+
+```bash
+npm -v
+```
+
+Expected output format: `9.x.x` or `10.x.x` (depending on npm version)
+
+## Project Setup
+
+Now that Node.js is installed, you can start setting up your backend project:
+
+### Initialize a New Node.js Project
+
+```bash
+# Create a new directory for your project
+mkdir my-backend-project
+cd my-backend-project
+
+# Initialize a new Node.js project
+npm init -y
+```
+
+### Create a Basic Server
+
+Create a simple `server.js` file:
+
+```javascript
+// server.js
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+    res.json({ message: 'Hello from your Node.js backend!' });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+```
+
+### Run Your Server
+
+```bash
+# Run the server
+node server.js
+
+# Or use nodemon for development (auto-restart on changes)
+npx nodemon server.js
+```
