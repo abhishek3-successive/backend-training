@@ -6,4 +6,4 @@ const mockUsers = [
   {id : 4 , name : "hello", age:45}
 ];
 
-module.exports = mockUsers;
+export default mockUsers;
