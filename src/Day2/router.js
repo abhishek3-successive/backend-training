@@ -1,10 +1,9 @@
 import express from 'express';
-import mockUsers from './Day2/mockdata.js';
+import mockUsers from './mockdata.js';
+import cookieParser from 'cookie-parser';
 
 const router = express.Router();
 
-
-import cookieParser from 'cookie-parser';
 router.use(cookieParser());
 
 
