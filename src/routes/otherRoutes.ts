@@ -8,8 +8,6 @@ const router = express.Router();
 
 router.get('/data',getOtherData)
 
-// health check endpoint
-
 router.get('/heath' , getHealthCheck);
 
 //post router for seeding data

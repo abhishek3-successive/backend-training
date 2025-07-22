@@ -6,7 +6,7 @@ const router = express.Router()
 
 //Mount 
 router.use('/user' , userRoutes)
-router.use('other', otherRoutes)
+router.use('/other', otherRoutes)
 
 //Root api 
 
