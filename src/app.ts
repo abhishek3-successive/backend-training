@@ -1,9 +1,38 @@
-import router from "./router";
+import express, { Request, Response } from 'express';
+import { customHeader } from './middlewares/customHeader';
+import { middleware1, middleware2, middleware3 } from '././middlewares/middlewareChaining';
+import { Custommid } from '././middlewares/custommiddleware';
+import rateLimiter from '././middlewares/ratelimiter';
+import routes from './routes'
 
-import express from 'express';
 
-const app = express()
+const app = express();
 
-app.use('/' , router)
+// Middleware to parse JSON
+app.use(express.json());
+
+// Custom logging middleware
+app.use(Custommid);
+
+// Rate limiter: Allow max 5 requests per IP
+app.use(rateLimiter(10));
+
+// Add a custom header to every response
+app.use(customHeader('X-Powered-By', 'Express-Custom'));
+
+// Chain multiple custom middlewares
+app.use(middleware1, middleware2, middleware3);
+
+app.use('/api', routes);
+
+// Root route
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello World!');
+});
+
+// 404 handler
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ message: 'Route not found' });
+});
 
 export default app;
