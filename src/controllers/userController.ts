@@ -1,87 +1,64 @@
-import  Jwt  from "jsonwebtoken";
-import { Request , Response  } from "express";
+import { Request, Response } from 'express';
+import Jwt from 'jsonwebtoken';
+import { users, User } from '../data/user'; 
 
-interface User{
-    id : number,
-    username : string,
-    password : string
-}
-
-interface AuthRequest extends Request{
-    user ?:any ;
-}
-
-// Mock user data
-
-const users : User[] = [
-    {id : 1 , username :'GG', password : 'pass123'},
-    {id : 2 , username : "Goku", password : 'pass234'}
-];
-const login = (req : Request , res : Response) => {
-    const {username , password} = req.body;
-
-    if(!username || !password){
-        return res.status(400).json({message : 'username and password are required'})
+// LOGIN
+export const login = (req: Request, res: Response) => {
+    const  {username, password}  = req.body;
+    if(!req.body){
+        return res.status(400).json({message : "req.body is not parsed"})
     }
+  
 
-    const user = users.find(u=> u.username === username && u.password === password);
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
 
-    if(!user){
-        return res.status(400).json({message : 'Invalid Credentials'});
-    }
+  const user = users.find(u => u.username === username && u.password === password);
 
-    const secret = 'secretkey'
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
 
-    const tokken = Jwt.sign(
-        {id : user.id , username : user.username },
-        secret,
-        {expiresIn : '1m'}
-    );
-    res.json({
-        message : 'Login Successfully',
-        tokken,
-        user : { id : user.id , username : user.username}
-})
+  const token = Jwt.sign({ id: user.id, username: user.username }, 'secret_key', {
+    expiresIn: '1h',
+  });
+
+  return res.status(200).json({
+    message: 'Login successful',
+    token,
+    user: { id: user.id, username: user.username },
+  });
 };
 
-const getUserProfile = (req : AuthRequest, res : Response) => {
-    // req.user is pop by auth middlware
+// REGISTER
+export const createUser = (req: Request, res: Response) => {
+  const { username, password } = req.body;
 
-    res.json({
-        message : 'user profile retrieved succesfully',
-        user : req.user
-    })
-}
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
 
-const createUser = (req : Request , res : Response)=>{
-    const {username , password} = req.body;
+  const existingUser = users.find(u => u.username === username);
+  if (existingUser) {
+    return res.status(409).json({ message: 'User already exists' });
+  }
 
-    if (!username || !password){
-        return res.status(400).json({message : "Username and password is required"});
-    }
+  const newUser: User = {
+    id: users.length + 1,
+    username,
+    password,
+  };
 
-    //check if user exist
+  users.push(newUser);
 
-    const existingUser = users.find(u => u.username === username)
-    if(existingUser){
-        return res.status(400).json({message : 'User already exists'});
-    }
+  return res.status(201).json({
+    message: 'User registered successfully',
+    user: { id: newUser.id, username: newUser.username },
+  });
+};
 
-    const newUser : User = {
-        id : users.length + 1,
-        username,
-        password
-    };
-
-    users.push(newUser)
-
-    res.status(201).json({
-      user : {id : newUser.id , username : newUser.username }  
-    });
-}
-
-export {
-    login,
-    getUserProfile,
-    createUser
-}
+// PROFILE
+export const getUserProfile = (req: Request, res: Response) => {
+  res.status(200).json({ message: 'This is a protected profile route' });
+};

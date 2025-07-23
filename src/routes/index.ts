@@ -2,6 +2,8 @@ import  express  from "express";
 import userRoutes from './userRoutes'
 import otherRoutes from './otherRoutes'
 
+
+
 const router = express.Router()
 
 //Mount 
