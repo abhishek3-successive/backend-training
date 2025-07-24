@@ -1,5 +1,5 @@
 import { connectDB } from "../config/db";
-import Country from "../models/country.model";
+import {Country} from "../models/model";
 
 const countries = [
   { name: "India", code: "IN" },
@@ -15,5 +15,6 @@ const seedCountries = async () => {
   console.log("Countries seeded");
   process.exit(0);
 };
+
 
 seedCountries();
