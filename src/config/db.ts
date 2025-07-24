@@ -2,10 +2,11 @@ import mongoose from "mongoose";
 
 export const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/backend-training"); // ← use 127.0.0.1 instead of localhost
+    await mongoose.connect("mongodb://localhost:27017/backend-training"); 
     console.log("MongoDB connected successfully");
   } catch (error) {
     console.error("MongoDB connection failed", error);
     process.exit(1);
   }
 };
+
