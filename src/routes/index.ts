@@ -1,26 +1,13 @@
 import  express  from "express";
-import userRoutes from './userRoutes'
-import otherRoutes from './otherRoutes'
-
+import Controllerrouter from "../controllers/router";
+import utilsrouter from "../utils/router";
 
 
 const router = express.Router()
 
 //Mount 
-router.use('/user' , userRoutes)
-router.use('/other', otherRoutes)
+router.use('/api', Controllerrouter);
+router.use('/api/seed' ,utilsrouter);
 
-//Root api 
-
-router.get('/' , (req, res)=>{
-    res.json({
-    message : `Welcome to Backend Api`,
-    endpoints : {
-        users : '/api/users',
-        other : '/api/other'
-    }
-    
-    })
-})
 
 export default router;

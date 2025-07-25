@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Jwt from 'jsonwebtoken';
-import { users, User } from '../data/user'; 
+import { users, User } from './user'; 
 
 // LOGIN
 export const login = (req: Request, res: Response) => {

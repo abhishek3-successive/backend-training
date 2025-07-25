@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { formatResponse } from "../utils/otherUtils";
+import { formatResponse } from "../../utils/otherUtils";
 
 const getOtherData = (req : Request , res : Response) =>{
     const data = {
