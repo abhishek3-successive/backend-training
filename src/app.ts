@@ -23,7 +23,7 @@ app.use(customHeader('X-Powered-By', 'Express-Custom'));
 // Chain multiple custom middlewares
 app.use(middleware1, middleware2, middleware3);
 
-app.use('/api', routes);
+app.use('/', routes);
 
 
 // 404 handler
