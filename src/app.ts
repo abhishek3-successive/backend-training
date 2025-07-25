@@ -3,7 +3,7 @@ import customHeader from '././middlewares/customHeader';
 import { middleware1, middleware2, middleware3 } from '././middlewares/middlewareChaining';
 import customMiddleware from '././middlewares/custommiddleware';
 import rateLimiter from '././middlewares/ratelimiter';
-import routes from './routes'
+import routes from './router'
 
 
 const app = express();

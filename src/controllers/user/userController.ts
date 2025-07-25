@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Jwt from 'jsonwebtoken';
-import { users, User } from './user'; 
+import { users, User } from './mockData'; 
+
 
 // LOGIN
 export const login = (req: Request, res: Response) => {
