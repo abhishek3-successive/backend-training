@@ -4,6 +4,7 @@ import { middleware1, middleware2, middleware3 } from '././middlewares/middlewar
 import customMiddleware from '././middlewares/custommiddleware';
 import rateLimiter from '././middlewares/ratelimiter';
 import routes from './router'
+import { swaggerUi, specs } from './config/swagger';
 
 
 const app = express();
@@ -22,6 +23,8 @@ app.use(customHeader('X-Powered-By', 'Express-Custom'));
 
 // Chain multiple custom middlewares
 app.use(middleware1, middleware2, middleware3);
+
+app.use('/api-docs', swaggerUi.serve , swaggerUi.setup(specs));
 
 app.use('/', routes);
 

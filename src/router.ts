@@ -2,15 +2,13 @@ import  Router  from "express";
 import userRouter from "./controllers/user";
 import { generateMockData } from "./utils/dataSeeder";
 import { Request , Response } from "express";
-
+import Day2 from './Day2/index';
 
 
 
 const router = Router()
-console.log("aaaaaaaaaaaaaa")
 
 router.get('/health' , (req : Request , res : Response)=>{
-    console.log('Abhishek Hello')
     res.json({
         status : 'OK',
         message : 'server is running properly',
@@ -29,7 +27,7 @@ router.post('/seed', (req: Request , res: Response) =>{
 
 
 router.use('/', userRouter);
-
+router.use('/api/assignment/Day2',Day2)
 
 
 export default router;

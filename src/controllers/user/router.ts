@@ -1,5 +1,4 @@
 import express from 'express'
-import { Request,Response } from "express";
 import { login, createUser,getUserProfile } from './userController';
 import { authenticateToken, generateToken } from '../../middlewares/auth';
 
