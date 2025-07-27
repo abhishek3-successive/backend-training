@@ -1,12 +1,13 @@
-import  Router, { NextFunction }  from "express";
+import   Router, { NextFunction }  from "express";
 import userRouter from "./controllers/user";
 import { generateMockData } from "./utils/dataSeeder";
 import { Request , Response } from "express";
 import Day2 from './Day2/index';
-import createError from 'http-errors';
-import { error } from "console";
+import  express  from "express";
 
+const app = express();
 
+app.use(express.json())
 
 const router = Router()
 
@@ -27,8 +28,9 @@ router.post('/seed', (req: Request , res: Response) =>{
     })
 })
 
-router.post('/bad-request' , (req : Request , res : Response , next : NextFunction)=>{
-  const {name , email } = req.body;
+router.post('/bad-request' , (req : Request , res : Response )=>{
+    console.log("Incoming request body:", req.body);
+  const {name , email} = req.body;
 
   if(!name || !email){
     return res.status(400).json({
