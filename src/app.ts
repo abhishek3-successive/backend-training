@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import authRoutes from './router';
 import { authenticate } from './middleware/auth';
 
-
 const app = express();
 app.use(express.json());
 
