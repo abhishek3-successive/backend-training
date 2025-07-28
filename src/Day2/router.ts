@@ -1,5 +1,5 @@
 import express from 'express';
-import mockUsers from './mockdata.js';
+import mockUsers from './mockdata';
 import cookieParser from 'cookie-parser';
 
 const router = express.Router();
