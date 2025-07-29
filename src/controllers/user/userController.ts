@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { generateToken } from '../../middlewares/auth';
-import {users, User} from '../../mockData'; 
+import {users, User} from './mockData'; 
 import fs from 'fs'
 import path from 'path';
+import bcrypt from "bcrypt"
 
 const mockDataPath = path.join(__dirname, 'mockData.ts');
 
@@ -20,35 +21,35 @@ export const users: User[] = ${JSON.stringify(users, null, 2)};
 };
 
 // LOGIN
-export const login = (req: Request, res: Response) => {
-    const  {username, password}  = req.body;
-    
-    if(!req.body){
-        return res.status(400).json({message : "req.body is not parsed"})
-    }
-  
+export const login = async (req: Request, res: Response) => {
+  const { username, password } = req.body;
 
-  if (!username || !password) {
+  if (!req.body || !username || !password) {
     return res.status(400).json({ message: 'Username and password are required' });
   }
 
-  const user = users.find(u => u.username === username && u.password === password);
-
+  const user = users.find(u => u.username === username);
+  
   if (!user) {
-    return res.status(401).json({ message: 'Invalid credentials' });
+    return res.status(401).json({ message: 'Invalid credentials: user not found' });
   }
 
-  const token = generateToken(req.body)
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    return res.status(401).json({ message: 'Invalid credentials: password mismatch' });
+  }
+
+  const token = generateToken({ username: user.username } as any);
 
   return res.status(200).json({
     message: 'Login successful',
     token,
-    user: { id: user.id, username: user.username },
   });
 };
 
 // REGISTER
-export const createUser = (req: Request, res: Response) => {
+export const createUser = async(req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -60,10 +61,12 @@ export const createUser = (req: Request, res: Response) => {
     return res.status(409).json({ message: 'User already exists' });
   }
 
+  const hashedpassword = await bcrypt.hash(password,2)
+
   const newUser: User = {
     id: users.length + 1,
     username,
-    password,
+    password:hashedpassword,
   };
 
   users.push(newUser);
@@ -71,7 +74,6 @@ export const createUser = (req: Request, res: Response) => {
 
   return res.status(201).json({
     message: 'User registered successfully',
-    user: { id: newUser.id, username: newUser.username },
   });
 };
 
