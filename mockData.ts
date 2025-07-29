@@ -1,1 +1,0 @@
-[{"id":1,"username":"GG","password":"pass123"},{"id":2,"username":"Goku","password":"pass234"},{"id":3,"username":"Abhishekg","password":"1234567e"}]
