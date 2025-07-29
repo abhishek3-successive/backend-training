@@ -4,7 +4,6 @@ import joi from "joi";
 
 export const validateQuery=(req:Request,res:Response,next:NextFunction)=>{
     try {
-        console.log("calling query validator");
 
         const {id} = req.params;
 
@@ -21,7 +20,6 @@ export const validateQuery=(req:Request,res:Response,next:NextFunction)=>{
             message:"Checked the id "
         })
     } catch (error) {
-        console.log("some error in query validator");
         next(error);
     }
 }
