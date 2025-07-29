@@ -1,7 +1,23 @@
 import { Request, Response } from 'express';
 import Jwt from 'jsonwebtoken';
-import { users, User } from './mockData'; 
+import {users, User} from '../../mockData'; 
+import fs from 'fs'
+import path from 'path';
 
+const mockDataPath = path.join(__dirname, 'mockData.ts');
+
+const saveUsersToMockData = (users: User[]) => {
+  const tsContent = `export interface User {
+  id: number;
+  username: string;
+  password: string;
+}
+
+export const users: User[] = ${JSON.stringify(users, null, 2)};
+`;
+
+  fs.writeFileSync(mockDataPath, tsContent, 'utf-8');
+};
 
 // LOGIN
 export const login = (req: Request, res: Response) => {
@@ -52,6 +68,7 @@ export const createUser = (req: Request, res: Response) => {
   };
 
   users.push(newUser);
+  saveUsersToMockData(users);
 
   return res.status(201).json({
     message: 'User registered successfully',
@@ -61,5 +78,5 @@ export const createUser = (req: Request, res: Response) => {
 
 // PROFILE
 export const getUserProfile = (req: Request, res: Response) => {
-  res.status(200).json({ message: 'This is a protected profile route' });
+  res.status(200).json(users);
 };
