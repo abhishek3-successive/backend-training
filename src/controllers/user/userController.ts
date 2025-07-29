@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Jwt from 'jsonwebtoken';
+import { generateToken } from '../../middlewares/auth';
 import {users, User} from '../../mockData'; 
 import fs from 'fs'
 import path from 'path';
@@ -22,6 +22,7 @@ export const users: User[] = ${JSON.stringify(users, null, 2)};
 // LOGIN
 export const login = (req: Request, res: Response) => {
     const  {username, password}  = req.body;
+    
     if(!req.body){
         return res.status(400).json({message : "req.body is not parsed"})
     }
@@ -37,9 +38,7 @@ export const login = (req: Request, res: Response) => {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
-  const token = Jwt.sign({ id: user.id, username: user.username }, 'secret_key', {
-    expiresIn: '1h',
-  });
+  const token = generateToken(req.body)
 
   return res.status(200).json({
     message: 'Login successful',
