@@ -106,6 +106,168 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /usercredentials:
+    post:
+      summary: Validate user credentials with Joi schema
+      description: Test endpoint for Joi validation schema with username, email, and password
+      tags:
+        - Validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentialsRequest'
+            examples:
+              example1:
+                summary: Valid user credentials
+                value:
+                  username: user12345
+                  email: user@example.com
+                  password: abc123
+              example2:
+                summary: Invalid credentials (short username)
+                value:
+                  username: usr
+                  email: user@example.com
+                  password: abc123
+      responses:
+        '200':
+          description: Validation successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validation successful
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /fetchid/{id}:
+    get:
+      summary: Fetch data by ID with query validation
+      description: Test endpoint for query parameter validation
+      tags:
+        - Validation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User ID to fetch
+          example: "123"
+      responses:
+        '200':
+          description: Data fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "123"
+                  message:
+                    type: string
+                    example: Data fetched successfully
+        '400':
+          description: Invalid ID parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /location:
+    get:
+      summary: Get location information
+      description: Test endpoint for location validation middleware
+      tags:
+        - Validation
+      responses:
+        '200':
+          description: Location information retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Location validated successfully
+                  location:
+                    type: object
+                    properties:
+                      country:
+                        type: string
+                        example: US
+                      region:
+                        type: string
+                        example: California
+        '400':
+          description: Location validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user/register:
+    post:
+      summary: Register user with dynamic validation
+      description: Test endpoint for dynamic Joi validation (uses name instead of username)
+      tags:
+        - Validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DynamicUserRequest'
+            examples:
+              example1:
+                summary: Valid registration
+                value:
+                  name: johndoe
+                  password: password123
+              example2:
+                summary: Invalid name (too short)
+                value:
+                  name: jo
+                  password: password123
+      responses:
+        '200':
+          description: Validation successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: fine
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: Validation error message
+
   /register:
     post:
       summary: Register new user
@@ -259,6 +421,58 @@ components:
           description: User's username
           example: john_doe
 
+    UserCredentialsRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          description: Username (minimum 5 characters, alphanumeric only)
+          example: user12345
+          minLength: 5
+          pattern: '^[a-zA-Z0-9]+$'
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: user@example.com
+        password:
+          type: string
+          description: Password (3-30 characters, alphanumeric only)
+          example: abc123
+          minLength: 3
+          maxLength: 30
+          pattern: '^[a-zA-Z0-9]{3,30}$'
+
+    DynamicUserRequest:
+      type: object
+      required:
+        - name
+        - password
+      properties:
+        name:
+          type: string
+          description: User's name (3-15 characters)
+          example: johndoe
+          minLength: 3
+          maxLength: 15
+        password:
+          type: string
+          description: Password (minimum 6 characters)
+          example: password123
+          minLength: 6
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Validation error details
+          example: '"username" length must be at least 5 characters long'
+
     MockUser:
       type: object
       properties:
@@ -344,6 +558,8 @@ tags:
     description: Data seeding and management operations
   - name: Day2 Assignment
     description: Day2 assignment specific endpoints
+  - name: Validation
+    description: Validation testing endpoints with different middleware
 
 externalDocs:
   description: Find out more about Swagger
