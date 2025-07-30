@@ -100,7 +100,7 @@ export const getUserProfile = (req: Request, res: Response) => {
 
   return res.status(200).json({
     success: true,
-    data: user,
+    username: user.username,
     location: req.geoLocation || {},
   });
 };
