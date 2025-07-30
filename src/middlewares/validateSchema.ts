@@ -4,7 +4,6 @@ import joi from "joi";
 
 const userSchema = joi.object({
     username:joi.string().min(5).alphanum().required(),
-    email:joi.string().email(),
     password:joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
 })
 
