@@ -79,5 +79,28 @@ export const createUser = async(req: Request, res: Response) => {
 
 // PROFILE
 export const getUserProfile = (req: Request, res: Response) => {
-  res.status(200).json(users);
+  const { id } = req.params;
+  const userId = Number(id);
+
+  if (isNaN(userId)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid ID: must be a number",
+    });
+  }
+
+  const user = users.find(user => user.id === userId);
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    data: user,
+    location: req.geoLocation || {},
+  });
 };
