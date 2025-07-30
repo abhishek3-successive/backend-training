@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import customHeader from '././middlewares/customHeader';
 import { middleware1, middleware2, middleware3 } from '././middlewares/middlewareChaining';
-import customMiddleware from '././middlewares/custommiddleware';
-import rateLimiter from '././middlewares/ratelimiter';
+import customMiddleware from './middlewares/customMiddleware';
+import rateLimiter from './middlewares/rateLimiter';
 import routes from './router'
 import { swaggerUi, specs } from './config/swagger';
 
@@ -26,7 +26,7 @@ app.use(middleware1, middleware2, middleware3);
 
 app.use('/api-docs', swaggerUi.serve , swaggerUi.setup(specs));
 
-app.use('/', routes);
+app.use('/api', routes);
 
 
 // 404 handler

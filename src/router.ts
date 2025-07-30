@@ -31,7 +31,7 @@ router.post('/seed', (req: Request , res: Response) =>{
 
 
 router.use('/', userRouter);
-router.use('/api/assignment/Day2',Day2)
+router.use('/assignment/Day2',Day2)
 
 
 export default router;
