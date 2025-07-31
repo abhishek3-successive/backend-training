@@ -17,6 +17,7 @@
   "homepage": "https://github.com/abhishek3-successive/backend-training#readme",
   "description": "",
   "dependencies": {
+    "helmet": "^8.1.0",
     "loadash": "^1.0.0",
     "lodash": "^4.17.21"
   }
