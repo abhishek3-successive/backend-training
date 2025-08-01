@@ -5,10 +5,11 @@ info:
   version: 1.0.0
 
 servers:
-  - url: http://localhost:5000
+  - url: http://localhost:5003
     description: Development server
 
 paths:
+
   /health:
     get:
       summary: Health check endpoint
@@ -337,8 +338,90 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+# -----------Error---------------
 
-  /api/assignment/Day2/:
+
+  /bad-request:
+    post:
+      summary: Show 400 Bad Request Error
+      description: When required data is missing
+      tags:
+        - Error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+              properties:
+                name:
+                  type: string
+                  example: "GG"
+                email:
+                  type: string
+                  example: "GG@example.com"
+      responses:
+        "400":
+          description: Bad Request - Missing required data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User created successfully"
+
+  /Unauthorized:
+    get:
+      summary: Shows 401 Unauthorized Error
+      description: When user is not logged in
+      tags:
+        - Error
+      parameters:
+        - in: header
+          name: Authorization
+          required: false
+          schema:
+            type: string
+            example: "Bearer your-token-here"
+      responses:
+        "401":
+          description: Unauthorized - Please login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Please login first"
+                  status:
+                    type: number
+                    example: 401
+        "200":
+          description: Success - User is logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Welcome! You are logged in"
+
+
+
+/api/assignment/Day2/:
     get:
       summary: Day2 assignment home page
       description: Welcome page that displays cookies information
@@ -353,7 +436,7 @@ paths:
                 type: string
                 example: Welcome to the Home Page
 
-  /api/assignment/Day2/data:
+/api/assignment/Day2/data:
     get:
       summary: Get Day2 mock user data
       description: Returns a list of mock users for Day2 assignment
@@ -560,7 +643,6 @@ tags:
     description: Day2 assignment specific endpoints
   - name: Validation
     description: Validation testing endpoints with different middleware
+  - name : Error
+    description : Error check
 
-externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io

@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(customMiddleware);
 
 // Rate limiter: Allow max 5 requests per IP
-app.use(rateLimiter(10));
+// app.use(rateLimiter(10));
 
 // Add a custom header to every response
 app.use(customHeader('X-Powered-By', 'Express-Custom'));
