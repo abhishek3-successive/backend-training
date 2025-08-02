@@ -4,20 +4,15 @@ import { generateMockData } from "./utils/dataSeeder";
 import { Request , Response } from "express";
 import Day2 from './Day2/index';
 import  express  from "express";
-
+import { HealthController} from "./controllers/healthcheck";
 const app = express();
 
 app.use(express.json())
 
 const router = Router()
 
-router.get('/health' , (req : Request , res : Response)=>{
-    res.json({
-        status : 'OK',
-        message : 'server is running properly',
-        timestamps : new Date().toISOString(),
-    })
-});
+router.get('/health', HealthController.checkServerHealth);
+
 
 router.post('/seed', (req: Request , res: Response) =>{
     const data = generateMockData();
