@@ -10,7 +10,7 @@
   },
   "include": [
     "src/**/*"
-  ],
+, "public/Day1", "public/lib"  ],
   "exclude": [
     "node_modules"
   ]

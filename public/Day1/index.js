@@ -1,4 +1,4 @@
-import { add, sub, mul, div } from "../lib/math.js";
+import { add, sub, mul, div } from "../../src/lib/math.js";
 import readline from "readline/promises";
 import fs from "fs/promises";
 
