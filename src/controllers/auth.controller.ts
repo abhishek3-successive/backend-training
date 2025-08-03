@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../model/user.model';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const JWT_SECRET = 'your_jwt_secret';
 
 export const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
