@@ -3,11 +3,8 @@ import userRouter from "./controllers/user";
 import { generateMockData } from "./utils/dataSeeder";
 import { Request , Response } from "express";
 import Day2 from './Day2/index';
-import  express  from "express";
 import { HealthController} from "./controllers/healthcheck";
-const app = express();
 
-app.use(express.json())
 
 const router = Router()
 
