@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 // Custom logging middleware
-app.use(Custommid);
+app.use(customMiddleware);
 
 // Rate limiter: Allow max 5 requests per IP
 // app.use(rateLimiter(10));
