@@ -1,4 +1,4 @@
-import { connectDB } from "../config/db";
+import { connectDB} from "../config/db";
 import Country from "../models/country.model";
 
 const countries = [
@@ -15,5 +15,6 @@ const seedCountries = async () => {
   console.log("Countries seeded");
   process.exit(0);
 };
+
 
 seedCountries();

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { generateToken } from '../../middlewares/auth';
-import {users, User} from './mockData'; 
+import {users, User} from './mockdata'; 
 import fs from 'fs'
 import path from 'path';
 import bcrypt from "bcrypt"
