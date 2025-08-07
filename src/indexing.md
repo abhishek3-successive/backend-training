@@ -65,7 +65,13 @@ Use text indexes for search functionality.
 ## Questions
 
 # 1. Check indexes on the collection.
+![index_on_collections](../public/Indexing/1.png)
 # 2. Create an index on customerName. Run a query filtering by customerName and check performance using explain("executionStats").
+![index_customerName](../public/Indexing/2.png)
 # 3. Create a compound index on status and orderDate. Run a query filtering by bothand compare performance (before vs after).
+![compound_index_before](../public/Indexing/3.png)
+![compound_index_after](../public/Indexing/4.png)
 # 4. Create a text index on items.productName. Perform a text search for a product.
+![text_index](../public/Indexing/5.png)
+![item.product_name](../public/Indexing/6.png)
 # 5. Drop an index and observe performance difference.
