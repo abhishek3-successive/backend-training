@@ -1,5 +1,4 @@
-import { connectDB } from '../lib/db';
-import Country from '../models/country.model';
+import Country from '../models/model';
 
 const countries = [
   { name: 'India', code: 'IN' },
@@ -9,7 +8,7 @@ const countries = [
 ];
 
 export const seedCountries = async () => {
-  await connectDB();
+
   
   const existing = await Country.find({});
   if (existing.length === 0) {

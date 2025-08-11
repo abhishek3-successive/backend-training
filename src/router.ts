@@ -4,6 +4,7 @@ import { generateMockData } from "./utils/dataSeeder";
 import { Request , Response } from "express";
 import Day2 from './Day2/index';
 import { HealthController} from "./controllers/healthcheck";
+import Day9 from "./Day9";
 
 
 const router = Router()
@@ -24,6 +25,7 @@ router.post('/seed', (req: Request , res: Response) =>{
 
 router.use('/', userRouter);
 router.use('/assignment/Day2',Day2)
+router.use('/assignment/Day9', Day9)
 
 
 export default router;

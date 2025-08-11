@@ -5,5 +5,8 @@ const countrySchema = new mongoose.Schema({
   code: { type: String, required: true },
 });
 
+
 const Country = mongoose.model("Country", countrySchema);
-export default Country;
+
+
+export default Country
