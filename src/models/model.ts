@@ -9,4 +9,4 @@ const countrySchema = new mongoose.Schema({
 const Country = mongoose.model("Country", countrySchema);
 
 
-export {Country}
+export default Country
