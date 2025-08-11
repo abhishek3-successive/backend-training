@@ -1,12 +1,15 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+import configurations from '../config/configuration';
+
+const { mongo_uri } = configurations;
 
 export const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/backend-training"); 
-    console.log("MongoDB connected successfully");
+    await mongoose.connect(mongo_uri);
+    console.log('MongoDB connected successfully');
   } catch (error) {
-    console.error("MongoDB connection failed", error);
-    process.exit(1);
+    console.error(' MongoDB connection failed:', error);
+    process.exit(1); 
   }
 };
 

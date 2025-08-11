@@ -1,19 +1,32 @@
 import app from './app';
-import { connectDB, disconnectDB } from './config/db';
+import { connectDB, disconnectDB } from './lib/db';
+import { seedCountries } from './scripts/seed';
+import configurations from './config/configuration';
 
-const PORT = 5003;
+const { port } = configurations;
 
-connectDB();
+const startServer = async () => {
+  try {
+    await connectDB();
+    await seedCountries();
 
-const server = app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+    const server = app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
 
+    process.on('SIGINT', async () => {
+      console.log('\nSIGINT received. Shutting down gracefully...');
+      await disconnectDB();
+      server.close(() => {
+        console.log('Server closed');
+        process.exit(0);
+      });
+    });
 
-process.on('SIGINT', async () => {
-  console.log('\n SIGINT received. Shutting down gracefully...');
-  await disconnectDB();
-  server.close(() => {
-    console.log(' Server closed');
-  });
-});
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
