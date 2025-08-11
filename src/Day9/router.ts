@@ -1,5 +1,5 @@
 import express from 'express';
-import { createItem } from '../controllers/item.controller';
+import { createItem } from '../controllers/MongoDB/item.controller';
 
 const router = express.Router();
 
