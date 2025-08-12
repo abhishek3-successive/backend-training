@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../model/user.model';
+import User from '../../models/user.model';
 
 const JWT_SECRET = 'your_jwt_secret';
 
