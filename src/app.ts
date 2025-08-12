@@ -6,7 +6,6 @@ import rateLimiter from './middlewares/rateLimiter';
 import routes from './router'
 import { swaggerUi, specs } from './config/swagger';
 
-
 const app = express();
 
 // Middleware to parse JSON
