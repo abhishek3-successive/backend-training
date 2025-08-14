@@ -4,6 +4,7 @@ import { middleware1, middleware2, middleware3 } from '././middlewares/middlewar
 import customMiddleware from './middlewares/customMiddleware';
 import rateLimiter from './middlewares/rateLimiter';
 import routes from './router'
+import { HeaderSecurity } from "../src/middlewares/securityHeader";
 import { swaggerUi, specs } from './config/swagger';
 
 const app = express();
@@ -19,6 +20,10 @@ app.use(customMiddleware);
 
 // Add a custom header to every response
 app.use(customHeader('X-Powered-By', 'Express-Custom'));
+
+//Security Header
+HeaderSecurity.apply(app);
+
 
 // Chain multiple custom middlewares
 app.use(middleware1, middleware2, middleware3);
